@@ -26,125 +26,125 @@ class SignUpMailPage extends StatelessWidget {
     TextEditingController passwordController = TextEditingController();
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(90),
-        child: CustomAppBar(
-          func: () {
-            Navigator.pop(context);
-          },
-        ),
+      appBar: CustomAppBar(
+        func: () {
+          Navigator.pop(context);
+        },
       ),
       backgroundColor: Colors.white,
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 28),
-          child: Consumer3<LoadingProvider, FirebaseProvider, OtpFormProvider>(
-            builder:
-                (context, loadProvider, firebaseProvider, otpProvider, child) {
-              return Column(
-                children: [
-                  const TextTalky(
+        padding: const EdgeInsets.symmetric(horizontal: 28),
+        child: Consumer3<LoadingProvider, FirebaseProvider, OtpFormProvider>(
+          builder:
+              (context, loadProvider, firebaseProvider, otpProvider, child) {
+            return Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 26, bottom: 40),
+                  child: TextTalky(
                     textSize: 40,
                     textColor: AppColors.blackText,
                     dotColor: AppColors.primaryBlue,
                   ),
-                  const SizedBox(
-                    height: 40,
+                ),
+                const Text(
+                  AppString.signUpEmail,
+                  style: TextStyle(
+                    color: AppColors.blackText,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
-                  const Text(
-                    AppString.signUpEmail,
-                    style: TextStyle(
-                      color: AppColors.blackText,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
+                ),
+                const SizedBox(
+                  height: 40,
+                ),
+                CustomTextForm(
+                  controller: emailController,
+                  hintText: AppString.enterEmail,
+                  isCorrect: firebaseProvider.isSignUpCorrect,
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                CustomTextFormWithIcon(
+                  controller: passwordController,
+                  text: AppString.enterPassword,
+                  isCorrect: firebaseProvider.isSignUpCorrect,
+                ),
+                const SizedBox(
+                  height: 18,
+                ),
+                if (!firebaseProvider.isSignUpCorrect)
+                  WrongPasswordEmail(
+                    text: firebaseProvider.newPasswordInvalid,
                   ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  CustomTextForm(
-                    controller: emailController,
-                    hintText: AppString.enterEmail,
-                    isCorrect: firebaseProvider.isSignUpCorrect,
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  CustomTextFormWithIcon(
-                    controller: passwordController,
-                    text: AppString.enterPassword,
-                    isCorrect: firebaseProvider.isSignUpCorrect,
-                  ),
-                  const SizedBox(
-                    height: 18,
-                  ),
-                  if (!firebaseProvider.isSignUpCorrect)
-                    WrongPasswordEmail(
-                      text: firebaseProvider.newPasswordInvalid,
-                    ),
-                  const SizedBox(
-                    height: 40,
-                  ),
-                  CheckAgreement(
-                    isChooseCheck: loadProvider.isChooseCheck,
-                    isChecked: loadProvider.isChecked,
-                    agreement: AppString.agreement,
-                    terms: AppString.terms,
-                    func: (check) {
-                      loadProvider.checkedCheckBox(check);
-                    },
-                  ),
-                  const SizedBox(
-                    height: 104,
-                  ),
-                  SignInUpButton(
-                    text: AppString.signUp,
-                    isPressed: loadProvider.isMailSignUp,
-                    func: () async {
-                      loadProvider.changeState(AuthMode.isMailSignUp);
-                      bool isRegistered = await firebaseProvider.registration(
-                        email: emailController.text,
-                        password: passwordController.text,
-                      );
+                const SizedBox(
+                  height: 40,
+                ),
+                CheckAgreement(
+                  isChooseCheck: loadProvider.isChooseCheck,
+                  isChecked: loadProvider.isChecked,
+                  agreement: AppString.agreement,
+                  terms: AppString.terms,
+                  func: (check) {
+                    loadProvider.checkedCheckBox(check);
+                  },
+                ),
+                const SizedBox(
+                  height: 104,
+                ),
+                SignInUpButton(
+                  text: AppString.signUp,
+                  isPressed: loadProvider.isMailSignUp,
+                  func: () async {
+                    loadProvider.changeState(AuthMode.isMailSignUp);
+                    bool isRegistered = await firebaseProvider.registration(
+                      email: emailController.text,
+                      password: passwordController.text,
+                    );
+
+                    firebaseProvider.correctSignUp(isRegistered);
+                    if (loadProvider.isChecked == true &&
+                        firebaseProvider.isSignUpCorrect) {
                       bool isSent = await otpProvider.sentEmail(
                           email: emailController.text);
-                      firebaseProvider.correctSignUp(isRegistered);
-                      if (loadProvider.isChecked == true &&
-                          firebaseProvider.isSignUpCorrect) {
-                        if (isSent) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (_) => const SignUpMailOtpPage(),
-                            ),
-                          );
-                        } else {
-                          print('failed otp');
-                        }
-                      } else if (!loadProvider.isChecked) {
-                        loadProvider.chooseCheckFunc();
-                      }
-
-                      loadProvider.changeState(
-                        AuthMode.isMailSignUp,
-                      );
-                    },
-                  ),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  FloorText(
-                      text1: AppString.haveAccount,
-                      text2: AppString.signInHere,
-                      func: () {
-                        Navigator.pushNamed(
+                      if (isSent) {
+                        Navigator.push(
                           context,
-                          AppRouteNames.signInPage,
+                          MaterialPageRoute(
+                            builder: (_) => const SignUpMailOtpPage(),
+                          ),
                         );
-                      }),
-                ],
-              );
-            },
-          )),
+                      } else {
+                        print('failed otp');
+                      }
+                    } else if (!loadProvider.isChecked) {
+                      loadProvider.chooseCheckFunc();
+                    }
+
+                    loadProvider.changeState(
+                      AuthMode.isMailSignUp,
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                FloorText(
+                  text1: AppString.haveAccount,
+                  text2: AppString.signInHere,
+                  func: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRouteNames.signInPage,
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }

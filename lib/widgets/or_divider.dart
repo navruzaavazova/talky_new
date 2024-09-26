@@ -8,37 +8,33 @@ class OrDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Padding(
-      padding: EdgeInsets.symmetric(horizontal: 32),
-      child: Row(
-        children: [
-          Expanded(
-            child: Divider(
-              color: AppColors.dividerBlack,
-              height: 1,
-            ),
+    return const Row(
+      children: [
+        Expanded(
+          child: Divider(
+            color: AppColors.dividerBlack,
+            height: 1,
+            indent: 32,
+            endIndent: 20,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              horizontal: 20,
-            ),
-            child: Text(
-              AppString.or,
-              style: TextStyle(
-                color: AppColors.dividerBlack,
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
+        ),
+        Text(
+          AppString.or,
+          style: TextStyle(
+            color: AppColors.dividerBlack,
+            fontSize: 14,
+            fontWeight: FontWeight.w500,
           ),
-          Expanded(
-            child: Divider(
-              color: AppColors.dividerBlack,
-              height: 1,
-            ),
+        ),
+        Expanded(
+          child: Divider(
+            color: AppColors.dividerBlack,
+            height: 1,
+            indent: 20,
+            endIndent: 32,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

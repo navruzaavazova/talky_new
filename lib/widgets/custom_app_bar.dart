@@ -4,42 +4,23 @@ import 'package:talky_new/utils/app_colors.dart';
 import 'package:talky_new/utils/app_icons.dart';
 import 'package:talky_new/utils/app_string.dart';
 
-
-class CustomAppBar extends StatelessWidget {
+class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({
     super.key,
-    required this.func, this.centerText = '',
+    required this.func,
+    this.centerText = '',
   });
   final Function() func;
   final String centerText;
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 21, vertical: 26),
-        child: Row(
-          children: [
-            GestureDetector(
-              onTap: func,
-              child: Container(
-                height: 24,
-                width: 24,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: AppColors.secondaryBlue,
-                ),
-                child: SvgPicture.asset(
-                  AppIcons.chevronBack.icon,
-                  height: 12,
-                  width: 14,
-                ),
-              ),
-            ),
-            SizedBox(
-              width: 5,
-            ),
-            Text(
+    return AppBar(
+      title: Row(
+        children: [
+          TextButton.icon(
+            onPressed: func,
+            label: const Text(
               AppString.back,
               style: TextStyle(
                 fontSize: 16,
@@ -47,20 +28,45 @@ class CustomAppBar extends StatelessWidget {
                 color: AppColors.primaryBlue,
               ),
             ),
-            Spacer(),
-            Text(
-              centerText,
-              style: TextStyle(
-                color: AppColors.blackText,
-                fontSize: 16,
-                fontWeight: FontWeight.w700,
+            icon: Container(
+              height: 30,
+              width: 30,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
+                color: AppColors.secondaryBlue,
+              ),
+              child: SvgPicture.asset(
+                AppIcons.chevronBack.icon,
+                height: 12,
+                width: 14,
               ),
             ),
+            style: const ButtonStyle(
+              splashFactory: NoSplash.splashFactory
 
-            Spacer(flex: 2),
-          ],
-        ),
+            ),
+
+          ),
+          const Spacer(),
+          Text(
+            centerText,
+            style: const TextStyle(
+              color: AppColors.blackText,
+              fontSize: 16,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+          const Spacer(
+            flex: 2,
+          ),
+        ],
       ),
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.white,
     );
   }
+
+  @override
+  // TODO: implement preferredSize
+  Size get preferredSize => const Size.fromHeight(56);
 }

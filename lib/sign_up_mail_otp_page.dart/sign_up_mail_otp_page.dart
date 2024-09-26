@@ -43,89 +43,97 @@ class _SignUpMailOtpPageState extends State<SignUpMailOtpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(90),
-        child: CustomAppBar(
-          func: () {
-            Navigator.pop(context);
-          },
-        ),
+      appBar: CustomAppBar(
+        func: () {
+          Navigator.pop(context);
+        },
       ),
       backgroundColor: Colors.white,
       body: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 21,
-          ),
-          child: Consumer<OtpFormProvider>(
-            builder: (context, otpProvider, child) {
-              return Column(
-                children: [
-                  const TextTalky(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 21,
+        ),
+        child: Consumer<OtpFormProvider>(
+          builder: (context, otpProvider, child) {
+            return Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 26, bottom: 40),
+                  child: TextTalky(
                     textSize: 40,
                     textColor: AppColors.blackText,
                     dotColor: AppColors.primaryBlue,
                   ),
-                  const SizedBox(
-                    height: 40,
+                ),
+                const Text(
+                  AppString.enterDigits,
+                  style: TextStyle(
+                    color: AppColors.blackText,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
                   ),
-                  const Text(
-                    AppString.enterDigits,
-                    style: TextStyle(
-                      color: AppColors.blackText,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(
-                    height: 50,
-                  ),
-                  Row(
-                    children: [
-                      ...List.generate(4, (index) {
-                        return Padding(
-                          padding: const EdgeInsets.only(left: 13, right: 13),
-                          child: CustomCodeForm(
-                            isCorrect: otpProvider.isCorrect,
-                            controller: controllers[index],
-                            isIndex: currentIndex == index,
-                            focusNode: focusNodes[index],
-                          ),
-                        );
-                      }),
-                    ],
-                  ),
-                  const SizedBox(
-                    height: 306,
-                  ),
-                  if (!otpProvider.isCorrect)
-                    const WrongPasswordEmail(text: AppString.wrongOtp),
-                  SignInUpButton(
-                      text: AppString.signUp,
-                      isPressed: false,
-                      func: () {
-                        otpProvider.toList(controllers);
+                ),
+                const SizedBox(
+                  height: 50,
+                ),
+                Row(
+                  children: [
+                    ...List.generate(4, (index) {
+                      return Padding(
+                        padding: const EdgeInsets.only(left: 13, right: 13),
+                        child: CustomCodeForm(
+                          isCorrect: otpProvider.isCorrect,
+                          controller: controllers[index],
+                          isIndex: currentIndex == index,
+                          focusNode: focusNodes[index],
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                if (!otpProvider.isCorrect)
+                  const WrongPasswordEmail(text: AppString.wrongOtp),
+                const SizedBox(
+                  height: 276,
+                ),
+                SignInUpButton(
+                    text: AppString.signUp,
+                    isPressed: false,
+                    func: () {
+                      otpProvider.toList(controllers);
 
-                        bool isVerified = otpProvider.verifyEmail(
-                            pin: otpProvider.code.join(''));
+                      bool isVerified = otpProvider.verifyEmail(
+                          pin: otpProvider.code.join(''));
 
-                        otpProvider.checkResult(isVerified);
-                      }),
-                  const SizedBox(
-                    height: 30,
-                  ),
-                  FloorText(
-                      text1: AppString.haveAccount,
-                      text2: AppString.signInHere,
-                      func: () {
+                      otpProvider.checkResult(isVerified);
+                      if (otpProvider.isCorrect) {
                         Navigator.pushNamed(
                           context,
-                          AppRouteNames.signInPage,
+                          AppRouteNames.profilePage,
                         );
-                      })
-                ],
-              );
-            },
-          )),
+                      }
+                    }),
+                const SizedBox(
+                  height: 30,
+                ),
+                FloorText(
+                  text1: AppString.haveAccount,
+                  text2: AppString.signInHere,
+                  func: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRouteNames.signInPage,
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        ),
+      ),
     );
   }
 }

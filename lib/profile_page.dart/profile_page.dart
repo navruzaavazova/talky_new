@@ -7,7 +7,6 @@ import 'package:talky_new/providers/image_picker_provider.dart';
 import 'package:talky_new/providers/loading_indicator_provider.dart';
 import 'package:talky_new/utils/app_colors.dart';
 import 'package:talky_new/utils/app_icons.dart';
-import 'package:talky_new/utils/app_route_names.dart';
 import 'package:talky_new/utils/app_string.dart';
 import 'package:talky_new/utils/auth_mode.dart';
 import 'package:talky_new/widgets/custom_app_bar.dart';
@@ -23,16 +22,12 @@ class ProfilePage extends StatelessWidget {
     TextEditingController descriptionController = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(120),
-        child: CustomAppBar(
-          func: () {
-            Navigator.pushNamed(context, AppRouteNames.signInPage);
-          },
-          centerText: AppString.profile,
-        ),
+      appBar: CustomAppBar(
+        func: () {},
+        centerText: AppString.profile,
       ),
-      body: Padding(
+      body: SafeArea(
+        child: Padding(
           padding: const EdgeInsets.symmetric(
             horizontal: 28,
           ),
@@ -58,7 +53,9 @@ class ProfilePage extends StatelessWidget {
                                   height: 40,
                                 )
                               : Center(
-                                  child: ClipOval(
+                                  child: ClipRRect(
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(95)),
                                     child: Image.file(
                                       imageProvider.selectedImage!,
                                       fit: BoxFit.cover,
@@ -70,17 +67,24 @@ class ProfilePage extends StatelessWidget {
                         Positioned(
                           bottom: 5,
                           right: 5,
-                          child: GestureDetector(
-                            onTap: () async {
+                          child: IconButton(
+                            onPressed: () async {
                               await imageProvider.imagePicker();
                             },
-                            child: CircleAvatar(
-                                radius: 25,
-                                backgroundColor: Colors.blue,
-                                child: SvgPicture.asset(
-                                  AppIcons.profileEdit.icon,
-                                  height: 24,
-                                )),
+                            icon: SvgPicture.asset(
+                              AppIcons.profileEdit.icon,
+                            ),
+                            iconSize: 24,
+                            style: const ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                                AppColors.primaryBlue,
+                              ),
+                              shape: WidgetStatePropertyAll(
+                                CircleBorder(),
+                              ),
+                            ),
+                            constraints:
+                                BoxConstraints.tightFor(height: 50, width: 50),
                           ),
                         ),
                       ],
@@ -106,27 +110,30 @@ class ProfilePage extends StatelessWidget {
                     height: 163,
                   ),
                   SignInUpButton(
-                      text: AppString.complete,
-                      isPressed: loadProvider.isComplete,
-                      func: () async {
-                        loadProvider.changeState(
-                          AuthMode.isComplete,
-                        );
-                        final uploadImage = await firebaseProvider.imageUpload(
-                            imageProvider.selectedImage!);
-                        await firebaseProvider.saveUserData(
-                            model: UserDataModel(
-                                name: nameController.text,
-                                description: descriptionController.text,
-                                image: uploadImage),
-                                );
+                    text: AppString.complete,
+                    isPressed: loadProvider.isComplete,
+                    func: () async {
+                      loadProvider.changeState(
+                        AuthMode.isComplete,
+                      );
+                      final uploadImage = await firebaseProvider
+                          .imageUpload(imageProvider.selectedImage!);
+                      await firebaseProvider.saveUserData(
+                        model: UserDataModel(
+                            name: nameController.text,
+                            description: descriptionController.text,
+                            image: uploadImage),
+                      );
 
-                        loadProvider.changeState(AuthMode.isComplete);
-                      }),
+                      loadProvider.changeState(AuthMode.isComplete);
+                    },
+                  ),
                 ],
               );
             },
-          )),
+          ),
+        ),
+      ),
     );
   }
 }

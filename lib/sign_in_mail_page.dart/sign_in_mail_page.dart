@@ -23,97 +23,97 @@ class SignInMailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     TextEditingController passwordController = TextEditingController();
-
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(90),
-        child: CustomAppBar(
-          func: () {
-            Navigator.pop(context);
-          },
-        ),
+      appBar: CustomAppBar(
+        func: () {
+          Navigator.pop(context);
+        },
       ),
       backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 28),
         child: Consumer2<LoadingProvider, FirebaseProvider>(
-            builder: (context, loadProvider, firebaseProvider, child) {
-          return Column(
-            children: [
-              const TextTalky(
-                textSize: 40,
-                textColor: AppColors.blackText,
-                dotColor: AppColors.primaryBlue,
-              ),
-              const SizedBox(height: 40),
-              const Text(
-                AppString.signInWithEmail,
-                style: TextStyle(
-                  color: AppColors.blackText,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w600,
+          builder: (context, loadProvider, firebaseProvider, child) {
+            return Column(
+              children: [
+                const Padding(
+                  padding: EdgeInsets.only(top: 26, bottom: 40),
+                  child: TextTalky(
+                    textSize: 40,
+                    textColor: AppColors.blackText,
+                    dotColor: AppColors.primaryBlue,
+                  ),
                 ),
-              ),
-              const SizedBox(height: 40),
-              CustomTextForm(
-                controller: emailController,
-                hintText: AppString.enterEmail,
-                isCorrect: firebaseProvider.isSignInCorrect,
-              ),
-              const SizedBox(height: 18),
-              CustomTextFormWithIcon(
-                controller: passwordController,
-                text: AppString.enterPassword,
-                isCorrect: firebaseProvider.isSignInCorrect,
-              ),
-              const SizedBox(height: 18),
-              if (!firebaseProvider.isSignInCorrect)
-                WrongPasswordEmail(text: firebaseProvider.passwordInvalid),
-              const SizedBox(height: 18),
-              ForgotPassword(
-                func: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRouteNames.forgotPasswordPage,
-                  );
-                },
-              ),
-              const SizedBox(height: 168),
-              SignInUpButton(
-                text: AppString.signIn,
-                isPressed: loadProvider.isMailSignIn,
-                func: () async {
-                  loadProvider.changeState(AuthMode.isMailSignIn);
-                  bool isAuthCorrect = await firebaseProvider.authByEmail(
-                      email: emailController.text,
-                      password: passwordController.text);
-                  firebaseProvider.correctSignIn(
-                    isAuthCorrect,
-                  );
-                  if (isAuthCorrect) {
-                    Navigator.pushNamed(context, AppRouteNames.profilePage);
-                  }
-                  loadProvider.changeState(
-                    AuthMode.isMailSignIn,
-                  );
-                },
-              ),
-              const SizedBox(
-                height: 30,
-              ),
-              FloorText(
-                text1: AppString.dontHaveAccount,
-                text2: AppString.signUpHere,
-                func: () {
-                  Navigator.pushNamed(
-                    context,
-                    AppRouteNames.signUpPage,
-                  );
-                },
-              ),
-            ],
-          );
-        }),
+                const Text(
+                  AppString.signInWithEmail,
+                  style: TextStyle(
+                    color: AppColors.blackText,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                const SizedBox(height: 40),
+                CustomTextForm(
+                  controller: emailController,
+                  hintText: AppString.enterEmail,
+                  isCorrect: firebaseProvider.isSignInCorrect,
+                ),
+                const SizedBox(height: 18),
+                CustomTextFormWithIcon(
+                  controller: passwordController,
+                  text: AppString.enterPassword,
+                  isCorrect: firebaseProvider.isSignInCorrect,
+                ),
+                const SizedBox(height: 18),
+                if (!firebaseProvider.isSignInCorrect)
+                  WrongPasswordEmail(text: firebaseProvider.passwordInvalid),
+                const SizedBox(height: 18),
+                ForgotPassword(
+                  func: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRouteNames.forgotPasswordPage,
+                    );
+                  },
+                ),
+                const SizedBox(height: 168),
+                SignInUpButton(
+                  text: AppString.signIn,
+                  isPressed: loadProvider.isMailSignIn,
+                  func: () async {
+                    loadProvider.changeState(AuthMode.isMailSignIn);
+                    bool isAuthCorrect = await firebaseProvider.authByEmail(
+                        email: emailController.text,
+                        password: passwordController.text);
+                    firebaseProvider.correctSignIn(
+                      isAuthCorrect,
+                    );
+                    if (isAuthCorrect) {
+                      // ignore: use_build_context_synchronously
+                      Navigator.pushNamed(context, AppRouteNames.profilePage);
+                    }
+                    loadProvider.changeState(
+                      AuthMode.isMailSignIn,
+                    );
+                  },
+                ),
+                const SizedBox(
+                  height: 30,
+                ),
+                FloorText(
+                  text1: AppString.dontHaveAccount,
+                  text2: AppString.signUpHere,
+                  func: () {
+                    Navigator.pushNamed(
+                      context,
+                      AppRouteNames.signUpPage,
+                    );
+                  },
+                ),
+              ],
+            );
+          },
+        ),
       ),
     );
   }

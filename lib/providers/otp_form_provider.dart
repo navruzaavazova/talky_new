@@ -13,6 +13,7 @@ class OtpFormProvider extends ChangeNotifier {
       appName: AppString.appName,
       otpLength: 4,
       otpType: OTPType.numeric,
+      expiry: 180000,
     );
     return await EmailOTP.sendOTP(email: email);
   }

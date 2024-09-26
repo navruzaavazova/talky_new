@@ -5,6 +5,7 @@ import 'package:talky_new/providers/firebase_provider.dart';
 import 'package:talky_new/providers/image_picker_provider.dart';
 import 'package:talky_new/providers/loading_indicator_provider.dart';
 import 'package:talky_new/providers/otp_form_provider.dart';
+import 'package:talky_new/splash_page/splash_page.dart';
 import 'package:talky_new/utils/app_colors.dart';
 import 'package:talky_new/utils/app_router.dart';
 
@@ -34,7 +35,7 @@ class App extends StatelessWidget {
           primaryColor: AppColors.primaryBlue,
         ),
         onGenerateRoute: AppRouter.generateRoute,
-        home: ProfilePage(),
+        home: const SplashPage(),
       ),
     );
   }

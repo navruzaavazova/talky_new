@@ -17,6 +17,7 @@ class FirebaseProvider extends ChangeNotifier {
   bool isSignInCorrect = true;
   bool isForgotPassword = true;
   bool isComplete = true;
+  bool? isSentGoogle;
 
   // Sign In
   Future<bool> authByEmail({
@@ -25,8 +26,7 @@ class FirebaseProvider extends ChangeNotifier {
   }) async {
     bool isCorrect = false;
     try {
-      await auth.signInWithEmailAndPassword(
-          email: email, password: password);
+      await auth.signInWithEmailAndPassword(email: email, password: password);
       isCorrect = true;
     } catch (e) {
       passwordInvalid = sanitizeErrorMessage(e.toString());
@@ -101,13 +101,16 @@ class FirebaseProvider extends ChangeNotifier {
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       if (gUser != null) {
         final GoogleSignInAuthentication gAuth = await gUser.authentication;
-        final credential = GoogleAuthProvider.credential(
+        final cred = GoogleAuthProvider.credential(
           accessToken: gAuth.accessToken,
           idToken: gAuth.idToken,
         );
-        return await auth.signInWithCredential(credential);
+        isSentGoogle = true;
+        notifyListeners();
+        return await auth.signInWithCredential(cred);
       }
     } catch (e) {
+      isSentGoogle = false;
       print("Google Sign-In failed: $e");
     }
     return null;
