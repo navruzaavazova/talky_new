@@ -47,13 +47,10 @@ class SignUpPage extends StatelessWidget {
                           AuthMode.isGoogleSignUp,
                         );
                         firebaseProvider.signInGoogle();
+                        
                         loadProvider.changeState(
                           AuthMode.isGoogleSignUp,
                         );
-                          Navigator.pushNamed(
-                            context,
-                            AppRouteNames.profilePage,
-                          );
 
                       },
                       isPressed: loadProvider.isGoogleSignUp,

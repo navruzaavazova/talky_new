@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talky_new/providers/firebase_provider.dart';
@@ -41,15 +42,12 @@ class SignInPage extends StatelessWidget {
                   CustomIconRectangleButton(
                     iconPath: AppIcons.googleIcon.icon,
                     text: AppString.signInGoogle,
-                    func: () {
+                    func: () async {
                       loadProvider.changeState(AuthMode.isGoogleSignIn);
                       firebaseProvider.signInGoogle();
                       loadProvider.changeState(AuthMode.isGoogleSignIn);
-                      if (firebaseProvider.isSentGoogle == true) {
-                        Navigator.pushNamed(
-                          context,
-                          AppRouteNames.profilePage,
-                        );
+                      if (firebaseProvider.isGoogleSignInSuccessful) {
+                        Navigator.pushNamed(context, AppRouteNames.profilePage);
                       }
                     },
                     isPressed: loadProvider.isGoogleSignIn,

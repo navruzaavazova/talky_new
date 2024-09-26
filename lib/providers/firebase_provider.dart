@@ -17,7 +17,7 @@ class FirebaseProvider extends ChangeNotifier {
   bool isSignInCorrect = true;
   bool isForgotPassword = true;
   bool isComplete = true;
-  bool? isSentGoogle;
+  bool isGoogleSignInSuccessful = false;
 
   // Sign In
   Future<bool> authByEmail({
@@ -105,12 +105,12 @@ class FirebaseProvider extends ChangeNotifier {
           accessToken: gAuth.accessToken,
           idToken: gAuth.idToken,
         );
-        isSentGoogle = true;
+        isGoogleSignInSuccessful = true;
         notifyListeners();
         return await auth.signInWithCredential(cred);
       }
     } catch (e) {
-      isSentGoogle = false;
+      isGoogleSignInSuccessful = false;
       print("Google Sign-In failed: $e");
     }
     return null;

@@ -20,7 +20,7 @@ class ForgotPasswordPage extends StatelessWidget {
   Widget build(BuildContext context) {
     TextEditingController emailController = TextEditingController();
     return Scaffold(
-      backgroundColor: AppColors.lightBackground,
+      backgroundColor: Colors.white,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(120),
         child: CustomAppBar(
