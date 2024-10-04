@@ -1,4 +1,0 @@
-enum PageMode {
-  isSignInPage,
-  isSignUpPage,
-}
