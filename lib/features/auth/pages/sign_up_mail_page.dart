@@ -107,6 +107,7 @@ class SignUpMailPage extends StatelessWidget {
                       if (value.isChecked) {
                         value.sentEmail(
                           email: emailController.text,
+                          password: passwordController.text,
                         );
                       } else {
                         value.chooseCheckFunc();

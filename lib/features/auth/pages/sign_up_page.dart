@@ -39,7 +39,7 @@ class SignUpPage extends StatelessWidget {
                   builder: (context, value, child) {
                     return CustomIconRectangleButton(
                       iconPath: AppIcons.googleIcon.icon,
-                      text: AppString.signInGoogle,
+                      text: AppString.signUpGoogle,
                       func: () => value.signInGoogle(),
                       isLoading: value.state.isLoading,
                     );

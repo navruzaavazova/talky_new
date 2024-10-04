@@ -37,9 +37,6 @@ class ForgotPasswordPage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    const SizedBox(
-                      height: 40,
-                    ),
                     const TextTalky(
                       textSize: 60,
                       textColor: AppColors.blackText,
@@ -58,9 +55,8 @@ class ForgotPasswordPage extends StatelessWidget {
                           text: value.errorText,
                         ),
                       ),
-                    const SizedBox(
-                      height: 30,
-                    ),
+
+                    const Spacer(flex: 2,),
                     PrimaryButton(
                       text: AppString.send,
                       isLoading: value.state.isLoading,
@@ -84,7 +80,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       },
                     ),
                     const SizedBox(
-                      height: 102,
+                      height: 100,
                     ),
                   ],
                 ),

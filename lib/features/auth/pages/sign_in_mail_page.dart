@@ -4,9 +4,9 @@ import 'package:talky/core/ui_kit/custom_app_bar.dart';
 import 'package:talky/core/ui_kit/custom_text_form.dart';
 import 'package:talky/core/ui_kit/custom_text_form_with_icon.dart';
 import 'package:talky/core/ui_kit/primary_button.dart';
-import 'package:talky/features/auth/pages/forgot_password_page.dart';
 import 'package:talky/features/auth/providers/sign_in_provider.dart';
 import 'package:talky/features/auth/widgets/floor_text.dart';
+import 'package:talky/features/auth/widgets/forgot_password_button.dart';
 import 'package:talky/features/auth/widgets/wrong_password_email.dart';
 import 'package:talky/features/splash/widgets/text_talky.dart';
 import 'package:talky/utils/app_colors.dart';
@@ -88,21 +88,26 @@ class SignInMailPage extends StatelessWidget {
                   const SizedBox(
                     height: 18,
                   ),
-                  const ForgotPasswordPage(),
+                  ForgotPassword(
+                    func: () {
+                      Navigator.pushNamed(
+                          context, AppRouteNames.forgotPasswordPage);
+                    },
+                  ),
                   const SizedBox(
                     height: 26,
                   ),
                   const Spacer(),
                   PrimaryButton(
-                      text: AppString.signIn,
-                      isLoading: value.state.isLoading,
-                      func: () {
-                        value.authByEmail(
-                          email: emailController.text,
-                          password: passwordController.text,
-                        );
-                        
-                      }),
+                    text: AppString.signUp,
+                    isLoading: value.state.isLoading,
+                    func: () {
+                      value.authByEmail(
+                        email: emailController.text,
+                        password: passwordController.text,
+                      );
+                    },
+                  ),
                   const SizedBox(
                     height: 30,
                   ),

@@ -1,4 +1,3 @@
-
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,8 +13,8 @@ class SingUpProvider extends ChangeNotifier {
 
   Statuses get state => _state;
 
-
-  Future<void> sentEmail({required String email}) async {
+  Future<void> sentEmail(
+      {required String email, required String password}) async {
     _updateState(Statuses.loading);
     try {
       EmailOTP.config(
@@ -27,6 +26,13 @@ class SingUpProvider extends ChangeNotifier {
       );
 
       final isSend = await EmailOTP.sendOTP(email: email);
+      if (!password.contains(RegExp(r'[A-Z]'))) {
+        errorText = AppString.withoutUpperCase;
+      } else if (!password.contains(RegExp(r'[1-9]'))) {
+        errorText = AppString.withoutNumbers;
+      } else if (!password.contains(RegExp(r'.-_,'))) {
+        errorText = AppString.withoutSymbols;
+      }
       if (isSend) {
         _updateState(Statuses.completed);
       } else {

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:talky/features/auth/pages/forgot_password_page.dart';
 import 'package:talky/features/auth/pages/sign_in_mail_page.dart';
 import 'package:talky/features/auth/pages/sign_in_page.dart';
 import 'package:talky/features/auth/pages/sign_up_mail_otp_page.dart';
@@ -6,7 +7,6 @@ import 'package:talky/features/auth/pages/sign_up_mail_page.dart';
 import 'package:talky/features/auth/pages/sign_up_page.dart';
 import 'package:talky/features/profile/pages/create_profile_page.dart';
 import 'package:talky/utils/app_route_names.dart';
-
 
 class AppRouter {
   static Route<dynamic> generateRoute(RouteSettings settings) {
@@ -36,10 +36,10 @@ class AppRouter {
             password: args?['password'],
           ),
         );
-      // case AppRouteNames.forgotPasswordPage:
-      //   return MaterialPageRoute(
-      //     builder: (context) => const ForgotPasswordPage(),
-      //   );
+      case AppRouteNames.forgotPasswordPage:
+        return MaterialPageRoute(
+          builder: (context) => const ForgotPasswordPage(),
+        );
       case AppRouteNames.createProfilePage:
         return MaterialPageRoute(
           builder: (context) => const CreateProfilePage(),
