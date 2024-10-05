@@ -24,17 +24,17 @@ class SingUpProvider extends ChangeNotifier {
         otpType: OTPType.numeric,
         expiry: 180000,
       );
+      
 
       final isSend = await EmailOTP.sendOTP(email: email);
-      if (!password.contains(RegExp(r'[A-Z]'))) {
-        errorText = AppString.withoutUpperCase;
-      } else if (!password.contains(RegExp(r'[1-9]'))) {
-        errorText = AppString.withoutNumbers;
-      } else if (!password.contains(RegExp(r'.-_,'))) {
-        errorText = AppString.withoutSymbols;
-      }
+
       if (isSend) {
-        _updateState(Statuses.completed);
+        if (password.length > 6) {
+          _updateState(Statuses.completed);
+        } else {
+          _updateState(Statuses.error);
+          errorText = 'Password need to be at least 6 characters';
+        }
       } else {
         _updateState(Statuses.error);
         errorText = 'Couldn\'t send OTP';

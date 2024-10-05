@@ -1,12 +1,16 @@
 import 'dart:developer';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:talky/utils/statuses.dart';
 
 class OtpProvider extends ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firebaseStore = FirebaseFirestore.instance;
   bool isCorrect = true;
   Statuses _state = Statuses.initial;
   List<String> otpCodes = [];
@@ -24,11 +28,30 @@ class OtpProvider extends ChangeNotifier {
         password: password,
       );
       _updateState(Statuses.completed);
+
+      User? user = auth.currentUser;
+      final doc = firebaseStore.collection('users').doc(user!.uid);
+      await doc.update({
+        'email': email,
+      });
     } catch (e) {
       _updateState(Statuses.error);
       log(e.toString());
     }
   }
+  // Future<void> saveUserData({required UserDataModel model}) async {
+  //   _state = Statuses.loading;
+  //   try {
+  //     User? user = auth.currentUser;
+  //     final doc = firebaseStore.collection('users').doc(user!.uid);
+  //     await doc.set(model.toJson());
+  //     _updateState(Statuses.completed);
+  //     notifyListeners();
+  //   } catch (e) {
+  //     _updateState(Statuses.error);
+  //     errorText = "Error saving user data: $e";
+  //   }
+  // }
 
   Future<void> verifyEmail({
     required String pin,

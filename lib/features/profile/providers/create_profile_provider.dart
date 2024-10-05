@@ -15,11 +15,12 @@ class CreateProfileProvider extends ChangeNotifier {
   FirebaseFirestore firebaseStore = FirebaseFirestore.instance;
 
   Statuses _state = Statuses.initial;
-   Statuses get state => _state;
+  Statuses get state => _state;
 
   File? selectedImage;
   String? selectedName;
   String failedUpload = '';
+  String errorText = '';
 
   Future<void> imagePicker() async {
     if (await Permission.storage.request().isGranted) {
@@ -60,11 +61,11 @@ class CreateProfileProvider extends ChangeNotifier {
       User? user = auth.currentUser;
       final doc = firebaseStore.collection('users').doc(user!.uid);
       await doc.set(model.toJson());
-      _state = Statuses.completed;
+      _updateState(Statuses.completed);
       notifyListeners();
     } catch (e) {
-      print("Error saving user data: $e");
-      _state = Statuses.error;
+      _updateState(Statuses.error);
+      errorText = "Error saving user data: $e";
     }
   }
 
