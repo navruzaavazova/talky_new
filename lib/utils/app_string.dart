@@ -30,4 +30,20 @@ class AppString {
   static const String enterName = 'Enter your name or nickname';
   static const String enterDescription = 'Enter a description';
   static const String complete = 'Complete';
+
+  //errors
+  static const String withoutNumbers =
+      'Password need contains at least one number';
+  static const String withoutUpperCase =
+      'Password need contains at least one UpperCase letter';
+  static const String withoutSymbols =
+      'Password need contains at least one symbol such as . , - _ ';
+
+  //forgot password
+  static const String forgotPasswordSend =
+      'Message for reset password have sent';
+
+  //Chats
+  static const String chats = 'Chats';
+  static const String ago = 'ago';
 }
