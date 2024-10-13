@@ -38,7 +38,9 @@ class SignInPage extends StatelessWidget {
                     return CustomIconRectangleButton(
                       iconPath: AppIcons.googleIcon.icon,
                       text: AppString.signInGoogle,
-                      func: () => value.signInGoogle(),
+                      func: () {
+                        value.signInGoogle();
+                      },
                       isLoading: value.state.isLoading,
                     );
                   },

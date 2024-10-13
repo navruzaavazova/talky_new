@@ -11,7 +11,8 @@ import 'package:talky/utils/app_icons.dart';
 import 'package:talky/utils/app_string.dart';
 
 class CreateProfilePage extends StatelessWidget {
-  const CreateProfilePage({super.key});
+  const CreateProfilePage({super.key,});
+
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +116,8 @@ class CreateProfilePage extends StatelessWidget {
                           model: UserDataModel(
                               name: nameController.text,
                               description: descriptionController.text,
-                              image: uploadImage),
+                              image: uploadImage,
+                              ),
                         );
                       },
                     ),

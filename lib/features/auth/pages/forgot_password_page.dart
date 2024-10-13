@@ -42,7 +42,7 @@ class ForgotPasswordPage extends StatelessWidget {
                       textColor: AppColors.blackText,
                       dotColor: AppColors.primaryBlue,
                     ),
-                    Spacer(),
+                    const Spacer(),
                     CustomTextForm(
                       controller: emailController,
                       hintText: AppString.enterEmail,

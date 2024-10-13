@@ -37,6 +37,12 @@ class SignUpPage extends StatelessWidget {
                 const Spacer(),
                 Consumer<AuthGoogleProvider>(
                   builder: (context, value, child) {
+                    if (value.state.isCompleted) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        Navigator.pushNamed(
+                            context, AppRouteNames.createProfilePage);
+                      });
+                    }
                     return CustomIconRectangleButton(
                       iconPath: AppIcons.googleIcon.icon,
                       text: AppString.signUpGoogle,

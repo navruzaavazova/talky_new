@@ -60,7 +60,7 @@ class CreateProfileProvider extends ChangeNotifier {
     try {
       User? user = auth.currentUser;
       final doc = firebaseStore.collection('users').doc(user!.uid);
-      await doc.set(model.toJson());
+      await doc.set(model.toJson(), SetOptions(merge: true));
       _updateState(Statuses.completed);
       notifyListeners();
     } catch (e) {

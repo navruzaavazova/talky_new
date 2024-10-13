@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:email_otp/email_otp.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +7,7 @@ import 'package:talky/utils/statuses.dart';
 
 class SingUpProvider extends ChangeNotifier {
   FirebaseAuth auth = FirebaseAuth.instance;
+  FirebaseFirestore firebaseStore = FirebaseFirestore.instance;
   Statuses _state = Statuses.initial;
   String? errorText;
   bool isChecked = false;
@@ -17,27 +19,36 @@ class SingUpProvider extends ChangeNotifier {
       {required String email, required String password}) async {
     _updateState(Statuses.loading);
     try {
-      EmailOTP.config(
-        appEmail: AppString.appMail,
-        appName: AppString.appName,
-        otpLength: 4,
-        otpType: OTPType.numeric,
-        expiry: 180000,
-      );
-      
+      final getEmail = await firebaseStore
+          .collection('users')
+          .where('email', isEqualTo: email)
+          .get();
 
-      final isSend = await EmailOTP.sendOTP(email: email);
+      if (getEmail.docs.isNotEmpty) {
+        _updateState(Statuses.error);
+        errorText = 'This email is already exists';
+      } else {
+        EmailOTP.config(
+          appEmail: AppString.appMail,
+          appName: AppString.appName,
+          otpLength: 4,
+          otpType: OTPType.numeric,
+          expiry: 180000,
+        );
 
-      if (isSend) {
-        if (password.length > 6) {
-          _updateState(Statuses.completed);
+        final isSend = await EmailOTP.sendOTP(email: email);
+
+        if (isSend) {
+          if (password.length > 6) {
+            _updateState(Statuses.completed);
+          } else {
+            _updateState(Statuses.error);
+            errorText = 'Password need to be at least 6 characters';
+          }
         } else {
           _updateState(Statuses.error);
-          errorText = 'Password need to be at least 6 characters';
+          errorText = 'Couldn\'t send OTP';
         }
-      } else {
-        _updateState(Statuses.error);
-        errorText = 'Couldn\'t send OTP';
       }
     } catch (e) {
       _updateState(Statuses.error);

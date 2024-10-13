@@ -99,7 +99,7 @@ class SignInMailPage extends StatelessWidget {
                   ),
                   const Spacer(),
                   PrimaryButton(
-                    text: AppString.signUp,
+                    text: AppString.signIn,
                     isLoading: value.state.isLoading,
                     func: () {
                       value.authByEmail(

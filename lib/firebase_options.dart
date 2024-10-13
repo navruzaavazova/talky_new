@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -49,20 +40,47 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyABpRuFCGq7RKPHEAljl3NyX_OHtZvDdhk',
+    appId: '1:16398219977:web:7f59888c5c0b51b48aeb18',
+    messagingSenderId: '16398219977',
+    projectId: 'otp-verification-n21',
+    authDomain: 'otp-verification-n21.firebaseapp.com',
+    storageBucket: 'otp-verification-n21.appspot.com',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyD3O2-ndxgBfOxyD1XZlgr8oKTTmDFpw0A',
-    appId: '1:72653874847:android:d11afed42bc7fa923324aa',
-    messagingSenderId: '72653874847',
-    projectId: 'talky-app-b7fdc',
-    storageBucket: 'talky-app-b7fdc.appspot.com',
+    apiKey: 'AIzaSyDLvywywIKYnTvMwVJqAEjJS__wclIE5wE',
+    appId: '1:16398219977:android:1d2719ec082942638aeb18',
+    messagingSenderId: '16398219977',
+    projectId: 'otp-verification-n21',
+    storageBucket: 'otp-verification-n21.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyAV8SLfzDhNzHZH9F5w6tdzmI0q2CLTHms',
-    appId: '1:72653874847:ios:9a41daf3630dd9233324aa',
-    messagingSenderId: '72653874847',
-    projectId: 'talky-app-b7fdc',
-    storageBucket: 'talky-app-b7fdc.appspot.com',
-    iosBundleId: 'com.simpl.talky',
+    apiKey: 'AIzaSyDNTeOR1UJzOwodjNyo7p-jUYRj_A1eO8o',
+    appId: '1:16398219977:ios:5cdaf54dbfcdde118aeb18',
+    messagingSenderId: '16398219977',
+    projectId: 'otp-verification-n21',
+    storageBucket: 'otp-verification-n21.appspot.com',
+    iosBundleId: 'com.example.talky',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyDNTeOR1UJzOwodjNyo7p-jUYRj_A1eO8o',
+    appId: '1:16398219977:ios:5cdaf54dbfcdde118aeb18',
+    messagingSenderId: '16398219977',
+    projectId: 'otp-verification-n21',
+    storageBucket: 'otp-verification-n21.appspot.com',
+    iosBundleId: 'com.example.talky',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyABpRuFCGq7RKPHEAljl3NyX_OHtZvDdhk',
+    appId: '1:16398219977:web:68eeaccc1e44b5bf8aeb18',
+    messagingSenderId: '16398219977',
+    projectId: 'otp-verification-n21',
+    authDomain: 'otp-verification-n21.firebaseapp.com',
+    storageBucket: 'otp-verification-n21.appspot.com',
   );
 }

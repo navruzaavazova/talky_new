@@ -42,7 +42,8 @@ class AppRouter {
         );
       case AppRouteNames.createProfilePage:
         return MaterialPageRoute(
-          builder: (context) => const CreateProfilePage(),
+          builder: (context) => const CreateProfilePage(
+          ),
         );
       default:
         return MaterialPageRoute(
