@@ -10,6 +10,7 @@ class AppColors {
   static const inCorrectRed = Color(0xFFC23232);
   static const online = Color(0xff2DCA8C);
   static const offline = Color(0xffFF715B);
+  static const dividerGrey = Color(0xffF7F7F9);
 
   //profile
   static const avatarColor = Color(0xffF0F0F0);

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:talky/features/chatlist/pages/chat_list_pages.dart';
+import 'package:talky/features/splash/pages/splash_page.dart';
 import 'package:talky/utils/app_colors.dart';
 import 'package:talky/utils/app_router.dart';
 
@@ -14,7 +14,8 @@ class App extends StatelessWidget {
         primaryColor: AppColors.primaryBlue,
       ),
       onGenerateRoute: AppRouter.generateRoute,
-      home: const ChatListPages(),
+      home: const SplashPage(),
+
     );
   }
 }

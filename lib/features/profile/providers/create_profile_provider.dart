@@ -41,28 +41,40 @@ class CreateProfileProvider extends ChangeNotifier {
     }
   }
 
-  Future<String?> imageUpload(File selectedImage) async {
+  Future<String?> imageUpload() async {
     FirebaseStorage storage = FirebaseStorage.instance;
     final imageRef = storage
         .ref()
         .child('profile_image/${DateTime.now().microsecondsSinceEpoch}.jpg');
 
-    final imageRefe = await imageRef.putFile(selectedImage);
-    final imageDownload = await imageRefe.ref.getDownloadURL();
+    if (selectedImage != null) {
+      final imageRefe = await imageRef.putFile(selectedImage!);
+      final imageDownload = await imageRefe.ref.getDownloadURL();
+      notifyListeners();
 
-    notifyListeners();
-
-    return imageDownload;
+      return imageDownload;
+    } else {
+      return null;
+    }
   }
 
-  Future<void> saveUserData({required UserDataModel model}) async {
-    _state = Statuses.loading;
+  Future<void> saveUserData(
+      {required String name, required String description}) async {
+    _updateState(Statuses.loading);
     try {
       User? user = auth.currentUser;
-      final doc = firebaseStore.collection('users').doc(user!.uid);
-      await doc.set(model.toJson(), SetOptions(merge: true));
+      final userUid = user!.uid;
+      final image = await imageUpload();
+      final doc = firebaseStore.collection('users').doc(userUid);
+      await doc.set(
+          UserDataModel(
+            name: name,
+            description: description,
+            image: image,
+            uid: userUid,
+          ).toJson(),
+          SetOptions(merge: true));
       _updateState(Statuses.completed);
-      notifyListeners();
     } catch (e) {
       _updateState(Statuses.error);
       errorText = "Error saving user data: $e";
