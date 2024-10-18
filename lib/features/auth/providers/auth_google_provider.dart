@@ -16,6 +16,10 @@ class AuthGoogleProvider extends ChangeNotifier {
   Future<void> signInGoogle() async {
     _updateState(Statuses.loading);
     try {
+      final gSignIn = GoogleSignIn();
+      if (await gSignIn.isSignedIn()) {
+        await gSignIn.signOut();
+      }
       final GoogleSignInAccount? gUser = await GoogleSignIn().signIn();
       if (gUser != null) {
         final GoogleSignInAuthentication gAuth = await gUser.authentication;
@@ -23,23 +27,10 @@ class AuthGoogleProvider extends ChangeNotifier {
           accessToken: gAuth.accessToken,
           idToken: gAuth.idToken,
         );
-        UserCredential userCredential = await auth.signInWithCredential(cred);
-        User? userGoogle = userCredential.user;
-        String? email = userGoogle?.email;
-
-        final getEmail = await firebaseStore
-            .collection('users')
-            .where('email', isEqualTo: email)
-            .get();
-        if (getEmail.docs.isEmpty) {
-          User? user = auth.currentUser;
-          final doc = firebaseStore.collection('users').doc(user!.uid);
-          await doc.set({
-            'email': email,
-          });
-        }
+        await auth.signInWithCredential(cred);
         _updateState(Statuses.completed);
-        notifyListeners();
+      } else {
+        _updateState(Statuses.initial);
       }
     } catch (e) {
       _updateState(Statuses.error);

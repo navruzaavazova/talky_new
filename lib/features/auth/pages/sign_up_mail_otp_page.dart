@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talky/core/ui_kit/custom_app_bar.dart';
+import 'package:talky/core/ui_kit/custom_back_button.dart';
 import 'package:talky/core/ui_kit/primary_button.dart';
 import 'package:talky/features/auth/providers/otp_provider.dart';
 import 'package:talky/features/auth/widgets/custom_code_form.dart';
@@ -48,14 +49,25 @@ class _SignUpMailOtpPageState extends State<SignUpMailOtpPage> {
   }
 
   @override
+  void dispose() {
+    for (var controller in controllers) {
+      controller.dispose();
+    }
+    for (var focusNode in focusNodes) {
+      focusNode.dispose();
+    }
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => OtpProvider(),
       child: Scaffold(
         appBar: CustomAppBar(
-          func: () {
-            Navigator.pop(context);
-          },
+          backButton: CustomBackButton(func: () {
+              Navigator.pop(context);
+            }),
         ),
         backgroundColor: Colors.white,
         body: Padding(

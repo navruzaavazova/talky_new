@@ -46,4 +46,5 @@ class AppString {
   //Chats
   static const String chats = 'Chats';
   static const String ago = 'ago';
+
 }

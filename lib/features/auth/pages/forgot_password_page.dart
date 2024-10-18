@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talky/core/ui_kit/custom_app_bar.dart';
+import 'package:talky/core/ui_kit/custom_back_button.dart';
 import 'package:talky/core/ui_kit/custom_text_form.dart';
 import 'package:talky/core/ui_kit/primary_button.dart';
 import 'package:talky/features/auth/providers/forgot_password_provider.dart';
@@ -21,9 +22,9 @@ class ForgotPasswordPage extends StatelessWidget {
         appBar: PreferredSize(
           preferredSize: const Size.fromHeight(120),
           child: CustomAppBar(
-            func: () {
+            backButton: CustomBackButton(func: () {
               Navigator.pop(context);
-            },
+            }),
           ),
         ),
         body: ChangeNotifierProvider(
@@ -55,8 +56,9 @@ class ForgotPasswordPage extends StatelessWidget {
                           text: value.errorText,
                         ),
                       ),
-
-                    const Spacer(flex: 2,),
+                    const Spacer(
+                      flex: 2,
+                    ),
                     PrimaryButton(
                       text: AppString.send,
                       isLoading: value.state.isLoading,

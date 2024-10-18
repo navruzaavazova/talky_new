@@ -5,6 +5,8 @@ import 'package:talky/features/auth/pages/sign_in_page.dart';
 import 'package:talky/features/auth/pages/sign_up_mail_otp_page.dart';
 import 'package:talky/features/auth/pages/sign_up_mail_page.dart';
 import 'package:talky/features/auth/pages/sign_up_page.dart';
+import 'package:talky/features/chat/pages/chat_room_page.dart';
+import 'package:talky/features/chatlist/pages/chat_list_page.dart';
 import 'package:talky/features/profile/pages/create_profile_page.dart';
 import 'package:talky/utils/app_route_names.dart';
 
@@ -40,11 +42,25 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const ForgotPasswordPage(),
         );
+
+      //Profiles part
       case AppRouteNames.createProfilePage:
         return MaterialPageRoute(
-          builder: (context) => const CreateProfilePage(
-          ),
+          builder: (context) => const CreateProfilePage(),
         );
+
+      //Chats part
+      case AppRouteNames.chatListPage:
+        return MaterialPageRoute(
+          builder: (context) => const ChatListPage(),
+        );
+      case AppRouteNames.chatRoomPage:
+        return MaterialPageRoute(
+          builder: (context) => const ChatRoomPage(),
+        );
+
+
+      //
       default:
         return MaterialPageRoute(
           builder: (context) => Scaffold(

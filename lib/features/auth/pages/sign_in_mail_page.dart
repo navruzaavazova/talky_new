@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:talky/core/ui_kit/custom_app_bar.dart';
+import 'package:talky/core/ui_kit/custom_back_button.dart';
 import 'package:talky/core/ui_kit/custom_text_form.dart';
 import 'package:talky/core/ui_kit/custom_text_form_with_icon.dart';
 import 'package:talky/core/ui_kit/primary_button.dart';
@@ -13,19 +14,31 @@ import 'package:talky/utils/app_colors.dart';
 import 'package:talky/utils/app_route_names.dart';
 import 'package:talky/utils/app_string.dart';
 
-class SignInMailPage extends StatelessWidget {
+class SignInMailPage extends StatefulWidget {
   const SignInMailPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    TextEditingController emailController = TextEditingController();
-    TextEditingController passwordController = TextEditingController();
+  State<SignInMailPage> createState() => _SignInMailPageState();
+}
 
+class _SignInMailPageState extends State<SignInMailPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        func: () {
-          Navigator.pop(context);
-        },
+        backButton: CustomBackButton(func: () {
+              Navigator.pop(context);
+            }),
       ),
       resizeToAvoidBottomInset: false,
       backgroundColor: Colors.white,
@@ -38,7 +51,7 @@ class SignInMailPage extends StatelessWidget {
                 Duration.zero,
                 () => Navigator.pushNamed(
                   context,
-                  AppRouteNames.createProfilePage,
+                  AppRouteNames.chatListPage,
                 ),
               );
             }

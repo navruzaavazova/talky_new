@@ -6,4 +6,6 @@ class AppRouteNames {
   static const String signUpMailOtpPage = '/signUpMailOtpPage';
   static const String forgotPasswordPage = '/forgotPasswordPage';
   static const String createProfilePage = '/createProfilePage';
+  static const String chatListPage = '/chatListPage';
+  static const String chatRoomPage = '/chatRoomPage';
 }
