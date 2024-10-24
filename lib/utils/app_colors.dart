@@ -12,6 +12,7 @@ class AppColors {
   static const offline = Color(0xffFF715B);
   static const dividerGrey = Color(0xffF7F7F9);
 
+
   //profile
   static const avatarColor = Color(0xffF0F0F0);
 }

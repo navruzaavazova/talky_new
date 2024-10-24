@@ -1,8 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:talky/utils/app_colors.dart';
-import 'package:talky/utils/app_icons.dart';
-import 'package:talky/utils/app_string.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CustomAppBar({

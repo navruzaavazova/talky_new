@@ -66,8 +66,7 @@ class _ChatListPageState extends State<ChatListPage> {
         child: Stack(
           children: [
             StreamBuilder<QuerySnapshot>(
-              stream:
-                  FirebaseFirestore.instance.collection('users').snapshots(),
+              stream: FirebaseFirestore.instance.collection('users').snapshots(),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
@@ -78,13 +77,21 @@ class _ChatListPageState extends State<ChatListPage> {
                 if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
                   return const Center(child: Text(ChatListString.noUsers));
                 }
+
                 FirebaseAuth auth = FirebaseAuth.instance;
                 final currentUser = auth.currentUser;
+
+                // Ensure currentUser is not null
+                if (currentUser == null) {
+                  return const Center(child: Text(ChatListString.noUsers));
+                }
+
                 final List<ChatListModel> users = snapshot.data!.docs
-                    .where((doc) => doc['uid'] != currentUser?.uid)
-                    .map((doc) => ChatListModel.fromJson(
-                          doc.data() as Map<String, dynamic>,
-                        ))
+                    .where((doc) => doc['uid'] != currentUser.uid)
+                    .map((doc) {
+                      final data = doc.data() as Map<String, dynamic>;
+                      return ChatListModel.fromJson(data);
+                    })
                     .toList();
 
                 return ListView.builder(
@@ -96,12 +103,22 @@ class _ChatListPageState extends State<ChatListPage> {
                         MessageInfoContainer(
                           avatar: user.image ?? AppImages.defaultAvatar.image,
                           name: user.name ?? ChatListString.unknown,
-                          lastMessage:
-                              user.lastMessage ?? ChatListString.noMessages,
+                          lastMessage: user.lastMessage ?? ChatListString.noMessages,
                           lastMessageTime: user.lastMessageTime ?? '',
                           func: () {
-                            Navigator.pushNamed(
-                                context, AppRouteNames.chatRoomPage,);
+                            // Ensure userId is not null before navigating
+                            if (user.userId!.isNotEmpty) {
+                              Navigator.pushNamed(
+                                context,
+                                AppRouteNames.chatRoomPage,
+                                arguments: {'receiverId': user.userId},
+                              );
+                            } else {
+                              // Handle the case where userId is empty
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(content: Text('User ID is not available')),
+                              );
+                            }
                           },
                           iconPath: AppIcons.chevronRight.icon,
                         ),

@@ -1,12 +1,14 @@
-class ChatModel {
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+class MessageModel {
   final String? senderId;
   final String? receiverId;
   final String? message;
-  final String? time;
+  final Timestamp? time;
 
-  ChatModel({this.senderId, this.receiverId, this.message, this.time});
+  MessageModel({this.senderId, this.receiverId, this.message, this.time});
 
-  factory ChatModel.fromJson(Map<String, dynamic> json) => ChatModel(
+  factory MessageModel.fromJson(Map<String, dynamic> json) => MessageModel(
         senderId: json['senderId'],
         receiverId: json['receiverId'],
         message: json['message'],

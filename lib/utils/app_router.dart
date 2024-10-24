@@ -56,7 +56,9 @@ class AppRouter {
         );
       case AppRouteNames.chatRoomPage:
         return MaterialPageRoute(
-          builder: (context) => const ChatRoomPage(),
+          builder: (context) => ChatRoomPage(
+            receiverId: args?['receiverId'],
+          ),
         );
 
 

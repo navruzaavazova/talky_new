@@ -3,14 +3,14 @@ class ChatListModel {
   final String? image;
   final String? lastMessage;
   final String? lastMessageTime;
-  final String? chatRoomId;
+  final String? userId;
 
   ChatListModel({
     this.name,
     this.image,
     this.lastMessage,
     this.lastMessageTime,
-    this.chatRoomId,
+    this.userId,
   });
 
   factory ChatListModel.fromJson(Map<String, dynamic> json) => ChatListModel(
@@ -18,7 +18,8 @@ class ChatListModel {
         image: json['image'],
         lastMessage: json['lastMessage'],
         lastMessageTime: json['lastMessageTime'],
-        chatRoomId: json['chatRoomId'],
+        userId: json['uid'],
+
       );
 
   Map<String, dynamic> toJson() {
@@ -27,7 +28,7 @@ class ChatListModel {
     data['image'] = image;
     data['lastMessage'] = lastMessage;
     data['lastMessageTime'] = lastMessageTime;
-    data['chatRoomId'] = chatRoomId;
+    data['uid'] = userId;
     return data;
   }
 }
